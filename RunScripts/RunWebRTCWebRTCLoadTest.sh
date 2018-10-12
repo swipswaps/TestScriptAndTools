@@ -1,9 +1,14 @@
+#!/bin/bash
+
+TEST_MACHINE=$1
+SERVER_MACHINE=$2
+
 cd /home/burak/test
-sshpass -p $1 ssh burak@54.37.3.113 "cd test/webrtc_webrtc;rm *"
-sshpass -p $1 scp TestPlans/WebRTC_WebRTC.jmx burak@54.37.3.113:/home/burak/test/webrtc_webrtc
-sshpass -p $1 ssh burak@54.37.3.113 "cp test/WebRTCTest test/webrtc_webrtc;cd test/webrtc_webrtc;export QT_QPA_PLATFORM=offscreen;../../apache-jmeter-4.0/bin/jmeter -nt WebRTC_WebRTC.jmx"
+sshpass -p burak ssh burak@$TEST_MACHINE "rm -r test/webrtc_webrtc;mkdir test/webrtc_webrtc"
+sshpass -p burak scp TestPlans/WebRTC_WebRTC.jmx burak@$TEST_MACHINE:/home/burak/test/webrtc_webrtc
+sshpass -p burak ssh burak@$TEST_MACHINE "cp test/WebRTCTest test/webrtc_webrtc;cd test/webrtc_webrtc;export QT_QPA_PLATFORM=offscreen;../../apache-jmeter-4.0/bin/jmeter -JserverIP=$SERVER_MACHINE -Jduration=280 -nt WebRTC_WebRTC.jmx"
 rm webrtc_webrtc/*
-sshpass -p $1 scp burak@54.37.3.113:/home/burak/test/webrtc_webrtc/* ./webrtc_webrtc
+sshpass -p burak scp burak@$TEST_MACHINE:/home/burak/test/webrtc_webrtc/*.csv ./webrtc_webrtc
 
 cd webrtc_webrtc
 

@@ -1,9 +1,14 @@
+#!/bin/bash
+
+TEST_MACHINE=$1
+SERVER_MACHINE=$2
+
 cd /home/burak/test
-sshpass -p $1 ssh burak@ovh36.antmedia.io "cd test/rtmp_hls;rm *"
-sshpass -p $1 scp TestPlans/RTMP_HLS.jmx burak@ovh36.antmedia.io:/home/burak/test/rtmp_hls
-sshpass -p $1 ssh burak@ovh36.antmedia.io "cd test/rtmp_hls;../../apache-jmeter-4.0/bin/jmeter -nt RTMP_HLS.jmx"
+sshpass -p burak ssh burak@$TEST_MACHINE "rm -r test/rtmp_hls;mkdir test/rtmp_hls"
+sshpass -p burak scp TestPlans/RTMP_HLS2.jmx burak@$TEST_MACHINE:/home/burak/test/rtmp_hls
+sshpass -p burak ssh burak@$TEST_MACHINE "cd test/rtmp_hls;../../apache-jmeter-4.0/bin/jmeter -JserverIP=$SERVER_MACHINE -Jduration=530 -nt RTMP_HLS2.jmx"
 rm rtmp_hls/*
-sshpass -p $1 scp burak@ovh36.antmedia.io:/home/burak/test/rtmp_hls/* ./rtmp_hls
+sshpass -p burak scp burak@$TEST_MACHINE:/home/burak/test/rtmp_hls/*.csv ./rtmp_hls
 
 cd rtmp_hls
 
@@ -26,6 +31,6 @@ gnuplot -e 	"set datafile separator ',';
 		set output 'ts.png';
 		set xlabel 'clients';
 		set ylabel 'time in ms';
-		plot 'getonets.csv' using 6:2;"
+		plot 'getonets.csv' using 7:2;"
 
 

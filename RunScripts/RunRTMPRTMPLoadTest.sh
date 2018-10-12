@@ -1,10 +1,15 @@
+#!/bin/bash
+
+TEST_MACHINE=$1
+SERVER_MACHINE=$2
+
 cd /home/burak/test
-sshpass -p $1 ssh burak@ovh36.antmedia.io "cd test/rtmp_rtmp;rm *"
-sshpass -p $1 scp TestPlans/RTMP_RTMP.jmx burak@ovh36.antmedia.io:/home/burak/test/rtmp_rtmp
-sshpass -p $1 scp RTMPClient burak@ovh36.antmedia.io:/home/burak/test/rtmp_rtmp
-sshpass -p $1 ssh burak@ovh36.antmedia.io "cd test/rtmp_rtmp;../../apache-jmeter-4.0/bin/jmeter -nt RTMP_RTMP.jmx"
+sshpass -p burak ssh burak@$TEST_MACHINE "rm -r test/rtmp_rtmp;mkdir test/rtmp_rtmp"
+sshpass -p burak scp TestPlans/RTMP_RTMP.jmx burak@$TEST_MACHINE:/home/burak/test/rtmp_rtmp
+sshpass -p burak scp RTMPClient burak@$TEST_MACHINE:/home/burak/test/rtmp_rtmp
+sshpass -p burak ssh burak@$TEST_MACHINE "cd test/rtmp_rtmp;../../apache-jmeter-4.0/bin/jmeter -JserverIP=$SERVER_MACHINE -Jduration=300 -nt RTMP_RTMP.jmx"
 rm rtmp_rtmp/*
-sshpass -p $1 scp burak@ovh36.antmedia.io:/home/burak/test/rtmp_rtmp/* ./rtmp_rtmp
+sshpass -p burak scp burak@$TEST_MACHINE:/home/burak/test/rtmp_rtmp/*.csv ./rtmp_rtmp
 
 cd rtmp_rtmp
 
