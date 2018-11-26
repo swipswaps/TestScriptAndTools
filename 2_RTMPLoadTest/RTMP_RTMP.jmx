@@ -8,9 +8,19 @@
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments">
-          <elementProp name="server" elementType="Argument">
-            <stringProp name="Argument.name">server</stringProp>
-            <stringProp name="Argument.value">${__property(serverIP)}</stringProp>
+          <elementProp name="originServer" elementType="Argument">
+            <stringProp name="Argument.name">originServer</stringProp>
+            <stringProp name="Argument.value">${__property(os)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="edgeAccessPoint" elementType="Argument">
+            <stringProp name="Argument.name">edgeAccessPoint</stringProp>
+            <stringProp name="Argument.value">${__property(eap)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testFile" elementType="Argument">
+            <stringProp name="Argument.name">testFile</stringProp>
+            <stringProp name="Argument.value">${__property(media)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="testDuration" elementType="Argument">
@@ -18,14 +28,14 @@
             <stringProp name="Argument.value">${__property(duration)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="clientCount" elementType="Argument">
-            <stringProp name="Argument.name">clientCount</stringProp>
-            <stringProp name="Argument.value">1000</stringProp>
+          <elementProp name="loadSize" elementType="Argument">
+            <stringProp name="Argument.name">loadSize</stringProp>
+            <stringProp name="Argument.value">${__property(load)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="rampUp" elementType="Argument">
-            <stringProp name="Argument.name">rampUp</stringProp>
-            <stringProp name="Argument.value">250</stringProp>
+          <elementProp name="streamName" elementType="Argument">
+            <stringProp name="Argument.name">streamName</stringProp>
+            <stringProp name="Argument.value">${__property(stream)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -148,6 +158,37 @@ f.close();</stringProp>
           <boolProp name="CookieManager.clearEachIteration">false</boolProp>
         </CookieManager>
         <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SignUp" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;fullName&quot;:&quot;antmedia&quot;,&#xd;
+	&quot;email&quot;:&quot;antmedia&quot;,&#xd;
+	&quot;password&quot;:&quot;antmedia&quot;&#xd;
+}&#xd;
+</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${edgeAccessPoint}</stringProp>
+          <stringProp name="HTTPSampler.port">5080</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/ConsoleApp/rest/addInitialUser</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -155,14 +196,14 @@ f.close();</stringProp>
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
-	&quot;email&quot;:&quot;burak&quot;,&#xd;
-	&quot;password&quot;:&quot;1234567&quot;&#xd;
+	&quot;email&quot;:&quot;antmedia&quot;,&#xd;
+	&quot;password&quot;:&quot;antmedia&quot;&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">${server}</stringProp>
+          <stringProp name="HTTPSampler.domain">${edgeAccessPoint}</stringProp>
           <stringProp name="HTTPSampler.port">5080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
@@ -186,11 +227,11 @@ f.close();</stringProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
-            <stringProp name="HTTPSampler.domain">${server}</stringProp>
+            <stringProp name="HTTPSampler.domain">${edgeAccessPoint}</stringProp>
             <stringProp name="HTTPSampler.port">5080</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/ConsoleApp/rest/request?_path=/LiveApp/rest/broadcast/get?id=test</stringProp>
+            <stringProp name="HTTPSampler.path">/ConsoleApp/rest/request?_path=/LiveApp/rest/broadcast/get?id=${streamName}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -213,7 +254,7 @@ f.close();</stringProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
-            <stringProp name="HTTPSampler.domain">${server}</stringProp>
+            <stringProp name="HTTPSampler.domain">${edgeAccessPoint}</stringProp>
             <stringProp name="HTTPSampler.port">5080</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
@@ -240,7 +281,7 @@ f.close();</stringProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
-            <stringProp name="HTTPSampler.domain">${server}</stringProp>
+            <stringProp name="HTTPSampler.domain">${edgeAccessPoint}</stringProp>
             <stringProp name="HTTPSampler.port">5080</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
@@ -263,37 +304,9 @@ f.close();</stringProp>
             </JSONPostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="LiveClientsSize" enabled="true">
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-              <collectionProp name="Arguments.arguments"/>
-            </elementProp>
-            <stringProp name="HTTPSampler.domain">${server}</stringProp>
-            <stringProp name="HTTPSampler.port">5080</stringProp>
-            <stringProp name="HTTPSampler.protocol">http</stringProp>
-            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/ConsoleApp/rest/getLiveClientsSize</stringProp>
-            <stringProp name="HTTPSampler.method">GET</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-            <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          </HTTPSamplerProxy>
-          <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Total Live Stream Extractor" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">totalLiveStreamSize</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$.totalLiveStreamSize</stringProp>
-              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              <stringProp name="JSONPostProcessor.defaultValues">NA</stringProp>
-            </JSONPostProcessor>
-            <hashTree/>
-          </hashTree>
           <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Write Stats BeanShell Sampler" enabled="true">
             <stringProp name="BeanShellSampler.query">cpu = vars.get(&quot;cpuUsage&quot;);
 mem = vars.get(&quot;memoryUsage&quot;);
-tlss = vars.get(&quot;totalLiveStreamSize&quot;);
 vc = vars.get(&quot;rtmpViewerCount&quot;);
 
 
@@ -341,7 +354,7 @@ f.close();</stringProp>
               </elementProp>
               <elementProp name="" elementType="Argument">
                 <stringProp name="Argument.name"></stringProp>
-                <stringProp name="Argument.value">ffmpeg -re -i /home/burak/test/Clash_360.mp4 -codec copy -f flv rtmp://${server}/LiveApp/test</stringProp>
+                <stringProp name="Argument.value">ffmpeg -re -i ${testFile} -codec copy -f flv rtmp://${originServer}/LiveApp/${streamName}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -359,8 +372,8 @@ f.close();</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${clientCount}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">${rampUp}</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${loadSize}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${testDuration}</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.duration">${testDuration}</stringProp>
         <stringProp name="ThreadGroup.delay">2</stringProp>
@@ -379,7 +392,7 @@ f.close();</stringProp>
               </elementProp>
               <elementProp name="" elementType="Argument">
                 <stringProp name="Argument.name"></stringProp>
-                <stringProp name="Argument.value">./RTMPClient rtmp://${server}/LiveApp/test ${clientCount} ${rampUp}</stringProp>
+                <stringProp name="Argument.value">./RTMPClient rtmp://${edgeAccessPoint}/LiveApp/${streamName} ${loadSize} ${testDuration}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -417,7 +430,7 @@ f.close();</stringProp>
               </elementProp>
               <elementProp name="" elementType="Argument">
                 <stringProp name="Argument.name"></stringProp>
-                <stringProp name="Argument.value">ffmpeg -i &quot;rtmp://${server}/LiveApp/test live=1&quot; -codec copy -f flv test.mp4</stringProp>
+                <stringProp name="Argument.value">ffmpeg -i &quot;rtmp://${edgeAccessPoint}/LiveApp/${streamName} live=1&quot; -codec copy -f flv test.mp4</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -455,7 +468,7 @@ f.close();</stringProp>
               </elementProp>
               <elementProp name="" elementType="Argument">
                 <stringProp name="Argument.name"></stringProp>
-                <stringProp name="Argument.value">./RTMPClient rtmp://${server}/LiveApp/test ${clientCount} ${rampUp}</stringProp>
+                <stringProp name="Argument.value">./RTMPClient rtmp://${edgeAccessPoint}/LiveApp/${streamName} ${loadSize} ${testDuration}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>

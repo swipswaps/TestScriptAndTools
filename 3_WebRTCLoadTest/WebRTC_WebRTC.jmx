@@ -8,14 +8,34 @@
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments">
-          <elementProp name="server" elementType="Argument">
-            <stringProp name="Argument.name">server</stringProp>
-            <stringProp name="Argument.value">${__property(serverIP)}</stringProp>
+          <elementProp name="originServer" elementType="Argument">
+            <stringProp name="Argument.name">originServer</stringProp>
+            <stringProp name="Argument.value">${__property(os)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="edgeAccessPoint" elementType="Argument">
+            <stringProp name="Argument.name">edgeAccessPoint</stringProp>
+            <stringProp name="Argument.value">${__property(eap)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testFile" elementType="Argument">
+            <stringProp name="Argument.name">testFile</stringProp>
+            <stringProp name="Argument.value">${__property(media)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="testDuration" elementType="Argument">
             <stringProp name="Argument.name">testDuration</stringProp>
             <stringProp name="Argument.value">${__property(duration)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="loadSize" elementType="Argument">
+            <stringProp name="Argument.name">loadSize</stringProp>
+            <stringProp name="Argument.value">${__property(load)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="streamName" elementType="Argument">
+            <stringProp name="Argument.name">streamName</stringProp>
+            <stringProp name="Argument.value">${__property(stream)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -59,7 +79,7 @@
         <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="false">
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -77,7 +97,7 @@
             <assertions>true</assertions>
             <subresults>true</subresults>
             <responseData>true</responseData>
-            <samplerData>false</samplerData>
+            <samplerData>true</samplerData>
             <xml>true</xml>
             <fieldNames>true</fieldNames>
             <responseHeaders>true</responseHeaders>
@@ -87,6 +107,8 @@
             <assertionsResultsToSave>0</assertionsResultsToSave>
             <bytes>true</bytes>
             <sentBytes>true</sentBytes>
+            <url>true</url>
+            <hostname>true</hostname>
             <threadCounts>true</threadCounts>
             <idleTime>true</idleTime>
             <connectTime>true</connectTime>
@@ -117,7 +139,7 @@ f = new FileOutputStream(&quot;measures.csv&quot;, true);
 p = new PrintStream(f); 
 p.flush();
 this.interpreter.setOut(p); 
-print(&quot;Viewer Count,CPU Usage,Memory Usage,VF Send Period,AF Send Period,Client Count&quot;);
+print(&quot;Viewer Count&quot;);
 f.close();</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
@@ -148,12 +170,13 @@ f.close();</stringProp>
 	&quot;fullName&quot;:&quot;antmedia&quot;,&#xd;
 	&quot;email&quot;:&quot;antmedia&quot;,&#xd;
 	&quot;password&quot;:&quot;antmedia&quot;&#xd;
-}</stringProp>
+}&#xd;
+</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">${server}</stringProp>
+          <stringProp name="HTTPSampler.domain">${edgeAccessPoint}</stringProp>
           <stringProp name="HTTPSampler.port">5080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
@@ -182,7 +205,7 @@ f.close();</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">${server}</stringProp>
+          <stringProp name="HTTPSampler.domain">${edgeAccessPoint}</stringProp>
           <stringProp name="HTTPSampler.port">5080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
@@ -202,110 +225,15 @@ f.close();</stringProp>
           <intProp name="LoopController.loops">-1</intProp>
         </LoopController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="WebRTCClientStats" enabled="true">
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-              <collectionProp name="Arguments.arguments"/>
-            </elementProp>
-            <stringProp name="HTTPSampler.domain">${server}</stringProp>
-            <stringProp name="HTTPSampler.port">5080</stringProp>
-            <stringProp name="HTTPSampler.protocol">http</stringProp>
-            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/WebRTCAppEE/rest/broadcast/getWebRTCClientStats/test</stringProp>
-            <stringProp name="HTTPSampler.method">GET</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-            <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          </HTTPSamplerProxy>
-          <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Video Frame Send Period" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">videoFrameSendPeriod</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$[0].videoFrameSendPeriod</stringProp>
-              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              <stringProp name="JSONPostProcessor.defaultValues">NA</stringProp>
-            </JSONPostProcessor>
-            <hashTree/>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Audio Frame Send Period" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">audioFrameSendPeriod</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$[0].audioFrameSendPeriod</stringProp>
-              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              <stringProp name="JSONPostProcessor.defaultValues">NA</stringProp>
-            </JSONPostProcessor>
-            <hashTree/>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Client Count" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">clientCount</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$..size()</stringProp>
-              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              <stringProp name="JSONPostProcessor.defaultValues">NA</stringProp>
-            </JSONPostProcessor>
-            <hashTree/>
-          </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="CPUUsage" enabled="true">
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-              <collectionProp name="Arguments.arguments"/>
-            </elementProp>
-            <stringProp name="HTTPSampler.domain">${server}</stringProp>
-            <stringProp name="HTTPSampler.port">5080</stringProp>
-            <stringProp name="HTTPSampler.protocol">http</stringProp>
-            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/ConsoleApp/rest/getCPUInfo</stringProp>
-            <stringProp name="HTTPSampler.method">GET</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-            <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          </HTTPSamplerProxy>
-          <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="CPU Usage Extractor" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">cpuUsage</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$.processCPULoad</stringProp>
-              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              <stringProp name="JSONPostProcessor.defaultValues">NA</stringProp>
-            </JSONPostProcessor>
-            <hashTree/>
-          </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SystemMemoryInfo" enabled="true">
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-              <collectionProp name="Arguments.arguments"/>
-            </elementProp>
-            <stringProp name="HTTPSampler.domain">${server}</stringProp>
-            <stringProp name="HTTPSampler.port">5080</stringProp>
-            <stringProp name="HTTPSampler.protocol">http</stringProp>
-            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/ConsoleApp/rest/getSystemMemoryInfo</stringProp>
-            <stringProp name="HTTPSampler.method">GET</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-            <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          </HTTPSamplerProxy>
-          <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Memory Usage Extractor" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">memoryUsage</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$.inUseMemory</stringProp>
-              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              <stringProp name="JSONPostProcessor.defaultValues">NA</stringProp>
-            </JSONPostProcessor>
-            <hashTree/>
-          </hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="BroadcastInfo" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
-            <stringProp name="HTTPSampler.domain">${server}</stringProp>
+            <stringProp name="HTTPSampler.domain">${edgeAccessPoint}</stringProp>
             <stringProp name="HTTPSampler.port">5080</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/ConsoleApp/rest/request?_path=/WebRTCAppEE/rest/broadcast/get?id=test</stringProp>
+            <stringProp name="HTTPSampler.path">/WebRTCAppEE/rest/broadcast/get?id=${streamName}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -324,15 +252,15 @@ f.close();</stringProp>
             </JSONPostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="LiveClientsSize" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="ClusterInfo" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
-            <stringProp name="HTTPSampler.domain">${server}</stringProp>
+            <stringProp name="HTTPSampler.domain">${edgeAccessPoint}</stringProp>
             <stringProp name="HTTPSampler.port">5080</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/ConsoleApp/rest/getLiveClientsSize</stringProp>
+            <stringProp name="HTTPSampler.path">/ConsoleApp/rest/cluster/nodes</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -343,36 +271,44 @@ f.close();</stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Total Live Stream Extractor" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">totalLiveStreamSize</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$.totalLiveStreamSize</stringProp>
-              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              <stringProp name="JSONPostProcessor.defaultValues">NA</stringProp>
-            </JSONPostProcessor>
-            <hashTree/>
-          </hashTree>
-          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Write Stats BeanShell Sampler" enabled="true">
-            <stringProp name="BeanShellSampler.query">cpu = vars.get(&quot;cpuUsage&quot;);
-mem = vars.get(&quot;memoryUsage&quot;);
-tlss = vars.get(&quot;totalLiveStreamSize&quot;);
-vc = vars.get(&quot;webRTCViewerCount&quot;);
-vfsp = vars.get(&quot;videoFrameSendPeriod&quot;);
-afsp = vars.get(&quot;audioFrameSendPeriod&quot;);
-cc = vars.get(&quot;clientCount&quot;); 
-
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="ParseAndWriteToFile" enabled="true">
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="script">import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+import org.apache.commons.lang.StringUtils;
 
 f = new FileOutputStream(&quot;measures.csv&quot;, true);
 p = new PrintStream(f); 
 this.interpreter.setOut(p); 
-print(vc+&quot;,&quot;+cpu+&quot;,&quot;+mem+&quot;,&quot;+vfsp+&quot;,&quot;+afsp+&quot;,&quot;+cc);
-f.close();
 
-System.out.println(vc+&quot;,&quot;+cpu+&quot;,&quot;+mem+&quot;,&quot;+vfsp+&quot;,&quot;+afsp);</stringProp>
-            <stringProp name="BeanShellSampler.filename"></stringProp>
-            <stringProp name="BeanShellSampler.parameters"></stringProp>
-            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-          </BeanShellSampler>
-          <hashTree/>
+
+String response = prev.getResponseDataAsString();
+JSONParser parser = new JSONParser();
+JSONArray array = (JSONArray) parser.parse(response);
+int size = array.size();
+
+String line = vars.get(&quot;webRTCViewerCount&quot;) + &quot;,&quot;;
+for(int i=0;i&lt;size;i++){
+	
+	JSONObject obj = array.get(i);
+
+	line = line + obj.get(&quot;ip&quot;) + &quot;,&quot;;
+	line = line + obj.get(&quot;cpu&quot;) + &quot;,&quot;;
+	line = line + obj.get(&quot;memory&quot;).replace(&apos;/&apos;,&apos;,&apos;);
+	line = line + ((i == size-1) ? &quot;&quot; : &quot;,&quot;);
+}
+
+System.out.println(line);
+
+print(line);
+f.close();
+</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+          </hashTree>
           <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Delay" enabled="true">
             <intProp name="ActionProcessor.action">1</intProp>
             <intProp name="ActionProcessor.target">0</intProp>
@@ -381,7 +317,7 @@ System.out.println(vc+&quot;,&quot;+cpu+&quot;,&quot;+mem+&quot;,&quot;+vfsp+&qu
           <hashTree/>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Publisher" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Publisher(rtmp)" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -407,7 +343,7 @@ System.out.println(vc+&quot;,&quot;+cpu+&quot;,&quot;+mem+&quot;,&quot;+vfsp+&qu
               </elementProp>
               <elementProp name="" elementType="Argument">
                 <stringProp name="Argument.name"></stringProp>
-                <stringProp name="Argument.value">ffmpeg -re -i /home/burak/test/Clash_360.mp4 -codec copy -f flv rtmp://${server}/WebRTCAppEE/test</stringProp>
+                <stringProp name="Argument.value">ffmpeg -re -i ${testFile} -codec copy -f flv rtmp://${originServer}/WebRTCAppEE/${streamName}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -419,14 +355,52 @@ System.out.println(vc+&quot;,&quot;+cpu+&quot;,&quot;+mem+&quot;,&quot;+vfsp+&qu
         </SystemSampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Loading" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Publisher(webrtc)" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">250</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">250</stringProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">${testDuration}</stringProp>
+        <stringProp name="ThreadGroup.delay">0</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="Run Publisher" enabled="true">
+          <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+          <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+          <stringProp name="SystemSampler.command">/bin/bash</stringProp>
+          <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">-c</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">./WebRTCTest -s ${originServer} -i ${streamName} -u false -m publisher -f ${testFile}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SystemSampler.directory"></stringProp>
+        </SystemSampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Players" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${loadSize}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${testDuration}</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.duration">${testDuration}</stringProp>
         <stringProp name="ThreadGroup.delay">5</stringProp>
@@ -451,7 +425,7 @@ System.out.println(vc+&quot;,&quot;+cpu+&quot;,&quot;+mem+&quot;,&quot;+vfsp+&qu
               </elementProp>
               <elementProp name="" elementType="Argument">
                 <stringProp name="Argument.name"></stringProp>
-                <stringProp name="Argument.value">./WebRTCTest ws://${server}:5080/WebRTCAppEE/websocket test_player test - player false 0</stringProp>
+                <stringProp name="Argument.value">./WebRTCTest -s ${edgeAccessPoint} -i ${streamName} -u false</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -459,6 +433,7 @@ System.out.println(vc+&quot;,&quot;+cpu+&quot;,&quot;+mem+&quot;,&quot;+vfsp+&qu
           <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
+          <stringProp name="SystemSampler.directory"></stringProp>
         </SystemSampler>
         <hashTree/>
       </hashTree>
@@ -494,7 +469,7 @@ System.out.println(vc+&quot;,&quot;+cpu+&quot;,&quot;+mem+&quot;,&quot;+vfsp+&qu
               </elementProp>
               <elementProp name="" elementType="Argument">
                 <stringProp name="Argument.name"></stringProp>
-                <stringProp name="Argument.value">./WebRTCTest ws://${server}:5080/WebRTCAppEE/websocket test_player test - player false 1000</stringProp>
+                <stringProp name="Argument.value">./WebRTCTest -s ${edgeAccessPoint} -i ${streamName} -u false -p 240</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -502,6 +477,7 @@ System.out.println(vc+&quot;,&quot;+cpu+&quot;,&quot;+mem+&quot;,&quot;+vfsp+&qu
           <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
+          <stringProp name="SystemSampler.directory"></stringProp>
         </SystemSampler>
         <hashTree/>
       </hashTree>
