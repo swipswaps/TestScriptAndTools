@@ -139,7 +139,7 @@ f = new FileOutputStream(&quot;measures.csv&quot;, true);
 p = new PrintStream(f); 
 p.flush();
 this.interpreter.setOut(p); 
-print(&quot;Viewer Count&quot;);
+print(&quot;Viewer Count,CPU Usage,Memory Usage&quot;);
 f.close();</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
@@ -170,8 +170,7 @@ f.close();</stringProp>
 	&quot;fullName&quot;:&quot;antmedia&quot;,&#xd;
 	&quot;email&quot;:&quot;antmedia&quot;,&#xd;
 	&quot;password&quot;:&quot;antmedia&quot;&#xd;
-}&#xd;
-</stringProp>
+}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -225,6 +224,60 @@ f.close();</stringProp>
           <intProp name="LoopController.loops">-1</intProp>
         </LoopController>
         <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="CPUUsage" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${edgeAccessPoint}</stringProp>
+            <stringProp name="HTTPSampler.port">5080</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/ConsoleApp/rest/getCPUInfo</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="CPU Usage Extractor" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">cpuUsage</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.processCPULoad</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">NA</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SystemMemoryInfo" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${edgeAccessPoint}</stringProp>
+            <stringProp name="HTTPSampler.port">5080</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/ConsoleApp/rest/getSystemMemoryInfo</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Memory Usage Extractor" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">memoryUsage</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.inUseMemory</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">NA</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="BroadcastInfo" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
               <collectionProp name="Arguments.arguments"/>
@@ -233,7 +286,7 @@ f.close();</stringProp>
             <stringProp name="HTTPSampler.port">5080</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/WebRTCAppEE/rest/broadcast/get?id=${streamName}</stringProp>
+            <stringProp name="HTTPSampler.path">/ConsoleApp/rest/request?_path=/WebRTCAppEE/rest/broadcast/get?id=${streamName}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -252,63 +305,24 @@ f.close();</stringProp>
             </JSONPostProcessor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="ClusterInfo" enabled="true">
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-              <collectionProp name="Arguments.arguments"/>
-            </elementProp>
-            <stringProp name="HTTPSampler.domain">${edgeAccessPoint}</stringProp>
-            <stringProp name="HTTPSampler.port">5080</stringProp>
-            <stringProp name="HTTPSampler.protocol">http</stringProp>
-            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/ConsoleApp/rest/cluster/nodes</stringProp>
-            <stringProp name="HTTPSampler.method">GET</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-            <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          </HTTPSamplerProxy>
-          <hashTree>
-            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="ParseAndWriteToFile" enabled="true">
-              <stringProp name="filename"></stringProp>
-              <stringProp name="parameters"></stringProp>
-              <boolProp name="resetInterpreter">false</boolProp>
-              <stringProp name="script">import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
-import org.apache.commons.lang.StringUtils;
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Write Stats BeanShell Sampler" enabled="true">
+            <stringProp name="BeanShellSampler.query">cpu = vars.get(&quot;cpuUsage&quot;);
+mem = vars.get(&quot;memoryUsage&quot;);
+vc = vars.get(&quot;webRTCViewerCount&quot;);
+
 
 f = new FileOutputStream(&quot;measures.csv&quot;, true);
 p = new PrintStream(f); 
 this.interpreter.setOut(p); 
-
-
-String response = prev.getResponseDataAsString();
-JSONParser parser = new JSONParser();
-JSONArray array = (JSONArray) parser.parse(response);
-int size = array.size();
-
-String line = vars.get(&quot;webRTCViewerCount&quot;) + &quot;,&quot;;
-for(int i=0;i&lt;size;i++){
-	
-	JSONObject obj = array.get(i);
-
-	line = line + obj.get(&quot;ip&quot;) + &quot;,&quot;;
-	line = line + obj.get(&quot;cpu&quot;) + &quot;,&quot;;
-	line = line + obj.get(&quot;memory&quot;).replace(&apos;/&apos;,&apos;,&apos;);
-	line = line + ((i == size-1) ? &quot;&quot; : &quot;,&quot;);
-}
-
-System.out.println(line);
-
-print(line);
+print(vc+&quot;,&quot;+cpu+&quot;,&quot;+mem);
 f.close();
-</stringProp>
-            </BeanShellPostProcessor>
-            <hashTree/>
-          </hashTree>
+
+System.out.println(vc+&quot;,&quot;+cpu+&quot;,&quot;+mem);</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree/>
           <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Delay" enabled="true">
             <intProp name="ActionProcessor.action">1</intProp>
             <intProp name="ActionProcessor.target">0</intProp>
