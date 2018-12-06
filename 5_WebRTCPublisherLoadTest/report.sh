@@ -3,7 +3,7 @@ gnuplot -persist <<-EOFMarker
 set datafile separator ','
 set term png size 500,1000
 set output 'measures.png'
-set xlabel 'players'
+set xlabel 'publishers'
 unset key
 set multiplot layout 2,1 columnsfirst
 set ylabel 'cpu usage %'

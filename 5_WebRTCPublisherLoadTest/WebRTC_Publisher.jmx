@@ -180,7 +180,7 @@ f.close();</stringProp>
           <stringProp name="HTTPSampler.port">5080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/ConsoleApp/rest/addInitialUser</stringProp>
+          <stringProp name="HTTPSampler.path">/rest/addInitialUser</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -209,7 +209,7 @@ f.close();</stringProp>
           <stringProp name="HTTPSampler.port">5080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/ConsoleApp/rest/authenticateUser</stringProp>
+          <stringProp name="HTTPSampler.path">/rest/authenticateUser</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -233,7 +233,7 @@ f.close();</stringProp>
             <stringProp name="HTTPSampler.port">5080</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/ConsoleApp/rest/getCPUInfo</stringProp>
+            <stringProp name="HTTPSampler.path">/rest/getCPUInfo</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -260,7 +260,7 @@ f.close();</stringProp>
             <stringProp name="HTTPSampler.port">5080</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/ConsoleApp/rest/getSystemMemoryInfo</stringProp>
+            <stringProp name="HTTPSampler.path">/rest/getSystemMemoryInfo</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
