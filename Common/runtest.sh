@@ -29,6 +29,10 @@ case $TEST_TYPE in
     TEST_ORG_DIR=$TOOLS_BASE/5_WebRTCPublisherLoadTest
     TEST_PLAN=WebRTC_Publisher.jmx
     ;;
+'nxn')
+    TEST_ORG_DIR=$TOOLS_BASE/6_NxNLoadTest
+    TEST_PLAN=WebRTC_NxN.jmx
+    ;;
 *)
     echo "invalid test type"
     exit 1
