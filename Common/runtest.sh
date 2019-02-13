@@ -51,7 +51,7 @@ JMETER=$TEST_BASE/apache-jmeter-5.0/bin/jmeter
 
 
 cd $TEST_DIR
-COMMAND="$JMETER -Jos=$ORIGIN_SERVER -Jeap=$EDGE_ACCESS_POINT -Jmedia=$TEST_FILE -Jload=$LOAD_SIZE -Jstream=$STREAM_NAME -Jduration=$DURATION -nt $TEST_PLAN"
+COMMAND="$JMETER -Jos=$ORIGIN_SERVER -Jeap=$EDGE_ACCESS_POINT -Jmedia=$TEST_FILE -Jload=$LOAD_SIZE -Jstream=$STREAM_NAME -Jduration=$DURATION -Juser=$USER -Jpass=$PASS -nt $TEST_PLAN"
 
 export QT_QPA_PLATFORM=offscreen
 

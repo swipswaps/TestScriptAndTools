@@ -38,6 +38,16 @@
             <stringProp name="Argument.value">${__property(load)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="user" elementType="Argument">
+            <stringProp name="Argument.name">user</stringProp>
+            <stringProp name="Argument.value">${__property(user)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="pass" elementType="Argument">
+            <stringProp name="Argument.name">pass</stringProp>
+            <stringProp name="Argument.value">${__property(pass)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </elementProp>
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
@@ -167,9 +177,9 @@ f.close();</stringProp>
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
-	&quot;fullName&quot;:&quot;antmedia&quot;,&#xd;
-	&quot;email&quot;:&quot;antmedia&quot;,&#xd;
-	&quot;password&quot;:&quot;antmedia&quot;&#xd;
+	&quot;fullName&quot;:&quot;${user}&quot;,&#xd;
+	&quot;email&quot;:&quot;${user}&quot;,&#xd;
+	&quot;password&quot;:&quot;${pass}&quot;&#xd;
 }&#xd;
 </stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
@@ -198,8 +208,8 @@ f.close();</stringProp>
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
-	&quot;email&quot;:&quot;antmedia&quot;,&#xd;
-	&quot;password&quot;:&quot;antmedia&quot;&#xd;
+	&quot;email&quot;:&quot;${user}&quot;,&#xd;
+	&quot;password&quot;:&quot;${pass}&quot;&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
